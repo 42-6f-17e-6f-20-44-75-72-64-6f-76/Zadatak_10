@@ -55,7 +55,7 @@ int main(void) {
 	toInfixList(&infixResult, root);
 
 	printf("Insert output file name...\n");
-	scanf(" %s", filename);
+	scanf("%s", filename);
 	infixToFile(filename,&infixResult);
 
 	root = deleteTree(root);
@@ -80,7 +80,7 @@ int infixToFile(char* filename, ListPosition head) {
 
 	for (ListPosition p = head->next; p != NULL; p = p->next) {
 		printf("%s ", p->data->data);
-		fprintf(fp, " %s", p->data->data);
+		fprintf(fp, "%s ", p->data->data);
 	}
 
 	return 0;
