@@ -31,6 +31,7 @@ NodePosition pop(ListPosition);
 NodePosition realPostfixFromFile(char*);
 int isNumber(char*);
 int toInfixList(ListPosition, NodePosition);
+int infixToFile(char*, ListPosition);
 
 NodePosition deleteTree(NodePosition);
 ListPosition deleteList(ListPosition);
@@ -42,7 +43,7 @@ int main(void) {
 	infixResult.next = NULL;
 
 	char filename[FILE_NAME_SIZE] = { 0 };
-	printf("Insert file name...");
+	printf("Insert input file name...\n");
 	scanf(" %s", filename);
 
 	root = realPostfixFromFile(filename);
@@ -53,10 +54,9 @@ int main(void) {
 
 	toInfixList(&infixResult, root);
 
-	for (ListPosition p = infixResult.next; p != NULL; p = p->next) {
-		printf("%s ", p->data->data);
-	}
-
+	printf("Insert output file name...\n");
+	scanf(" %s", filename);
+	infixToFile(filename,&infixResult);
 
 	root = deleteTree(root);
 	infixResult.next = deleteList(infixResult.next);
@@ -66,6 +66,25 @@ int main(void) {
 	return EXIT_SUCCESS;
 }
 
+int infixToFile(char* filename, ListPosition head) {
+
+	FILE* fp = NULL;
+
+	fp = fopen(filename, "w");
+
+	if (NULL == fp)
+	{
+		printf("The system cannot find the path specified.");
+		return -1;
+	}
+
+	for (ListPosition p = head->next; p != NULL; p = p->next) {
+		printf("%s ", p->data->data);
+		fprintf(fp, " %s", p->data->data);
+	}
+
+	return 0;
+}
 
 NodePosition deleteTree(NodePosition root){
 	if (root == NULL)return NULL;
